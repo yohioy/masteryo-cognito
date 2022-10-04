@@ -5,33 +5,39 @@ import {
     CognitoUserAttribute,
     CognitoUser,
     AuthenticationDetails,
-    CognitoAccessToken
+    CognitoAccessToken,
+    ICognitoUserPoolData,
+    ICognitoUserAttributeData,
+    ISignUpResult,
+    IAuthenticationCallback,
+    IAuthenticationDetailsData,
 } from 'amazon-cognito-identity-js';
 
-export interface IOptions {
+export type TOptions = {
     UserPoolId: string;
     ClientId: string;
 }
 
 export class Cognito {
-    private readonly poolData;
-    private readonly userPool;
+    private readonly poolData: ICognitoUserPoolData;
+    private readonly userPool: CognitoUserPool;
 
-    constructor(options: IOptions) {
+    constructor(options: TOptions) {
 
         this.poolData = {
             UserPoolId: options.UserPoolId,
-            ClientId: options.ClientId
+            ClientId: options.ClientId,
         };
         this.userPool = new CognitoUserPool(this.poolData);
     }
 
-    async signup(username: string, password: string, attributes: {}): Promise<any>{
+    async signup(username: string, password: string, attributes: {}): Promise<ISignUpResult>{
 
         let attributeList: any = [];
+        let item: ICognitoUserAttributeData;
 
         for (let [key, value] of Object.entries(attributes)) {
-            let item = {
+            item = {
                 Name: `${key}`,
                 Value: `${value}`
             };
@@ -39,22 +45,21 @@ export class Cognito {
         }
 
         try {
-            return await new Promise((resolve, reject) => this.userPool.signUp(username, password, attributeList, null, (err, result) => {
+            return await new Promise((resolve, reject) => this.userPool.signUp(username, password, attributeList, [], (err, result) => {
                 if(err) {
                     reject(err);
                 }
                 resolve(result);
             }));
         } catch(e) {
-            console.log(e);
-            throw new Error(`Sign up Error: ${e}`);
+            throw new Error(`Sign up Error: ${e.message}`);
         }
     }
 
 
-    async authenticateUser (email: string, password: string) {
+    async authenticateUser (email: string, password: string): Promise<IAuthenticationCallback>{
 
-        const authenticateData = {
+        const authenticateData: IAuthenticationDetailsData = {
             Username: email,
             Password: password
         };
@@ -81,13 +86,13 @@ export class Cognito {
             }));
             return authenticatedUserResult;
         } catch(e) {
-            throw new Error(`Auth Failed: ${e}`);
+            throw new Error(`Auth Failed: ${e.message}`);
         }
 
     }
 
 
-    async confirmRegistration(code: string, email: string) {
+    async confirmRegistration(code: string, email: string): Promise<any> {
 
         const cognitoUser = new CognitoUser({
             Username: email,
@@ -103,12 +108,12 @@ export class Cognito {
             }));
 
         } catch(e) {
-            throw new Error(`Confirm Registration Error: ${e}`);
+            throw new Error(`Confirm Registration Error: ${e.message}`);
         }
     }
 
 
-    async getTokenPayload(token: string) {
+    async getTokenPayload(token: string): Promise<object> {
         const cognitoAccessToken = new CognitoAccessToken({ AccessToken: token });
         return cognitoAccessToken.decodePayload();
     }

@@ -1,19 +1,19 @@
 import { Cognito } from '../dist'
 require('dotenv').config();
 
-const { COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID, EMAIL, PASSWORD } = process.env;
+const { COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID, USER_EMAIL, USER_PASSWORD } = process.env;
 
 const options: any = {
-    UserPoolId: COGNITO_USER_POOL_ID,
-    ClientId: COGNITO_CLIENT_ID
+    UserPoolId: String(COGNITO_USER_POOL_ID),
+    ClientId: String(COGNITO_CLIENT_ID)
 };
 
 const cognito = new Cognito(options);
 
 const signin = async () => {
     const user = {
-        email: EMAIL,
-        password: PASSWORD
+        email: String(USER_EMAIL),
+        password: String(USER_PASSWORD)
     };
 
     const response = await cognito.authenticateUser(user.email, user.password);

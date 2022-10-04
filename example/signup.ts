@@ -1,5 +1,4 @@
-import { Cognito } from '../dist'
-import { ICognitoUserPoolData } from 'amazon-cognito-identity-js';
+import { Cognito, ICognitoUserPoolData } from '../dist'
 require('dotenv').config();
 
 const signup = async () => {

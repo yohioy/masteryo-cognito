@@ -1,9 +1,9 @@
-import { Cognito } from '../dist'
+import { Cognito, ICognitoUserPoolData } from '../dist'
 require('dotenv').config();
 
 const { COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID, USER_EMAIL, USER_PASSWORD } = process.env;
 
-const options: any = {
+const options: ICognitoUserPoolData = {
     UserPoolId: String(COGNITO_USER_POOL_ID),
     ClientId: String(COGNITO_CLIENT_ID)
 };

@@ -10,12 +10,17 @@ import {
     ICognitoUserAttributeData,
     ISignUpResult,
     IAuthenticationCallback,
-    IAuthenticationDetailsData,
+    IAuthenticationDetailsData
 } from 'amazon-cognito-identity-js';
 
 export type TOptions = {
     UserPoolId: string;
     ClientId: string;
+}
+
+export {
+    ICognitoUserPoolData,
+    ICognitoUserAttributeData
 }
 
 export class Cognito {

@@ -1,1 +1,1 @@
-export { Cognito } from './Cognito';
+export * from './Cognito';

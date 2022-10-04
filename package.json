@@ -16,17 +16,28 @@
   "scripts": {
     "build": "tsc",
     "prebuild": "rm -rf ./dist",
-    "run-example": "ts-node ./example/index.ts",
+    "run-example:auth": "ts-node ./example/auth.ts",
+    "run-example:signup": "ts-node ./example/signup.ts",
     "publish-package": "npm publish --access public"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "amazon-cognito-identity-js": "^4.2.3",
+    "dotenv": "^16.0.3",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
+    "@types/node": "^18.8.1",
     "@types/node-fetch": "^2.5.7",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-semistandard": "^17.0.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "prettier": "^2.7.1",
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-config-semistandard": "^8.0.1",

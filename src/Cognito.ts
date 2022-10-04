@@ -39,14 +39,14 @@ export class Cognito {
         }
 
         try {
-            const cognitoSignupResponse = await new Promise((resolve, reject) => this.userPool.signUp(username, password, attributeList, null, (err, result) => {
+            return await new Promise((resolve, reject) => this.userPool.signUp(username, password, attributeList, null, (err, result) => {
                 if(err) {
                     reject(err);
                 }
                 resolve(result);
             }));
-            return cognitoSignupResponse;
         } catch(e) {
+            console.log(e);
             throw new Error(`Sign up Error: ${e}`);
         }
     }

@@ -10,7 +10,8 @@ import {
     ICognitoUserAttributeData,
     ISignUpResult,
     IAuthenticationCallback,
-    IAuthenticationDetailsData
+    IAuthenticationDetailsData,
+    ICognitoUserData
 } from 'amazon-cognito-identity-js';
 
 export type TOptions = {
@@ -70,10 +71,11 @@ export class Cognito {
         };
         const authenticationDetails = new AuthenticationDetails(authenticateData);
 
-        const cognitoUser = new CognitoUser({
+        const cognitoUserData: ICognitoUserData = {
             Username: email,
             Pool: this.userPool
-        });
+        }
+        const cognitoUser = new CognitoUser(cognitoUserData);
 
         let authenticatedUserResult;
         try {
